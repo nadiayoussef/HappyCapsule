@@ -174,7 +174,7 @@ export default function Canvas() {
   const handleLockCapsule = () => {
     const canvasImage = captureCanvasImage();
     if (canvasImage) {
-      navigate('/lock-capsule', { state: { image: canvasImage } }); // Pass the image as state to the route
+      navigate('/LockCapsule', { state: { image: canvasImage } }); // Pass the image as state to the route
     } else {
       alert('No canvas image to lock.');
     }
@@ -246,16 +246,32 @@ export default function Canvas() {
   };
 
   return (
-    <div className="App">
-      <CgProfile />
-      <h1>{formattedDate}</h1>
+    <div>
+      <h1 className='text-center'>{formattedDate}</h1>
 
-      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', gap: '10px' }}>
-        <button onClick={() => setMode('drawing')} style={{ marginTop: '10px' }}>Drawing Mode</button>
-        <button onClick={() => setMode('editing')} style={{ marginTop: '10px' }}>Edit Mode</button>
+      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '10px' }}>
+        <button className="btn btn-secondary" onClick={() => setMode('drawing')} style={{ marginTop: '10px' }}>Drawing Mode</button>
+        <button className="btn btn-secondary" onClick={() => setMode('editing')} style={{ marginTop: '10px' }}>Edit Mode</button>
+        <label htmlFor="file-input" style={{
+          backgroundColor: 'gray',
+          color: 'white',
+          padding: '10px 20px',
+          cursor: 'pointer',
+          border: 'none',
+        }}>
+          Import Media
+        </label>
+        <input
+          id="file-input"
+          type="file"
+          accept="image/*"
+          onChange={importMedia}
+          multiple
+          style={{ display: 'none' }}
+        />
       </div>
 
-      <button onClick={generatePrompt} style={{ position: 'absolute', top: '10px', right: '10px' }}>
+      <button className="btn btn-success" onClick={generatePrompt} style={{ position: 'absolute', top: '10px', right: '10px' }}>
         Generate Prompt
       </button>
 
@@ -276,43 +292,12 @@ export default function Canvas() {
         style={{ border: '1px solid black', display: 'block', margin: '20px auto' }}
       />
 
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '20px' }}>
-        <button onClick={clearCanvas} style={{ marginTop: '10px' }}>Clear Canvas</button>
-
-        <label htmlFor="file-input" style={{
-          backgroundColor: 'lightgray',
-          color: 'black',
-          padding: '10px 20px',
-          cursor: 'pointer',
-          border: 'none',
-        }}>
-          Import Media
-        </label>
-        <input
-          id="file-input"
-          type="file"
-          accept="image/*"
-          onChange={importMedia}
-          multiple
-          style={{ display: 'none' }}
-        />
-      </div>
-
-      {/* Lock Capsule Button */}
-      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-        <button onClick={handleLockCapsule} style={{ padding: '10px 20px', backgroundColor: 'lightblue', border: 'none' }}>
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '20px', padding: '10px 20px' }}>
+        <button className="btn btn-danger" onClick={clearCanvas}>Clear Canvas</button>
+        <button className="btn btn-primary" onClick={handleLockCapsule}>
           Lock Capsule
         </button>
       </div>
-
-      {/* Define the routing for /lock-capsule */}
-      <Routes>
-        {/* Define a route for LockCapsule */}
-        <Route path="/lock-capsule" element={<LockCapsule />} />
-      </Routes>
-
-
-
     </div>
       );
     }

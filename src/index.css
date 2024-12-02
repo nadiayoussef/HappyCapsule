@@ -12,10 +12,14 @@ code {
     monospace;
 }
 
-@media (min-width: 768px) {
-.main-content-offset {
+
+#main .main-content {
     padding-left: 140px !important;
-  }
+    max-width: 1000px;
+}
+.canvas {
+  background-color: white;
+  max-width: 1000px;
 }
 
 .card-img {
