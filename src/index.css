@@ -11,3 +11,20 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@media (min-width: 768px) {
+.main-content-offset {
+    padding-left: 140px !important;
+  }
+}
+
+.card-img {
+  width: 100%;
+  height: 15vw;
+  object-fit: cover;
+}
+
+.profile-img {
+  width: 100px;
+  height: 150px;
+}
