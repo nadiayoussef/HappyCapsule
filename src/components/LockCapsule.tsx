@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
@@ -10,31 +10,27 @@ interface LockedEntry {
 }
 
 const LockCapsule: React.FC = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [canvasImage, setCanvasImage] = useState<string | null>(null);
   const [lockedEntries, setLockedEntries] = useState<LockedEntry[]>([]);
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const savedEntries = localStorage.getItem('lockedEntries');
     if (savedEntries) {
       setLockedEntries(JSON.parse(savedEntries));
     }
-  }, []);
 
-  // Handle date selection using onClickDay instead of onChange
+    // If the image was passed from the previous page, set it here
+    if (location.state?.image) {
+      setCanvasImage(location.state.image);
+    }
+  }, [location.state]);
+
+  // Handle date selection
   const handleDateClick = (value: Date) => {
     setSelectedDate(value);
-    console.log("Selected date:", value);  // Debugging
-  };
-
-  const captureCanvasImage = () => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const image = canvas.toDataURL('image/png');
-    setCanvasImage(image);
   };
 
   const handleLock = () => {
@@ -63,11 +59,7 @@ const LockCapsule: React.FC = () => {
     <div className="LockCapsule">
       <h1>Lock Capsule</h1>
 
-      {/* Canvas Capture */}
-      <div>
-        <button onClick={captureCanvasImage}>Capture Canvas</button>
-      </div>
-
+      {/* Preview captured canvas image */}
       {canvasImage && (
         <div>
           <h3>Preview of your captured image</h3>
@@ -75,12 +67,12 @@ const LockCapsule: React.FC = () => {
         </div>
       )}
 
-      {/* Date Picker using onClickDay */}
+      {/* Date Picker */}
       <div>
         <h3>Select a date to lock the capsule</h3>
         <Calendar
-          onClickDay={handleDateClick}  // Handle date click event
-          value={selectedDate || new Date()}  // Default to current date if no date is selected
+          onClickDay={handleDateClick}
+          value={selectedDate || new Date()}
         />
       </div>
 

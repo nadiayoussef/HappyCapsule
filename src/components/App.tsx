@@ -59,6 +59,14 @@ const App: React.FC = () => {
     }
   };
 
+  const captureCanvasImage = (): string | null => {
+    const canvas = canvasRef.current;
+    if (canvas) {
+      return canvas.toDataURL('image/png'); // Captures the image as a data URL
+    }
+    return null;
+  };  
+
   const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
     if (mode !== 'drawing') return;
     const { offsetX, offsetY } = e.nativeEvent;
@@ -163,6 +171,15 @@ const App: React.FC = () => {
       setDraggingMediaIndex(null); // Stop dragging
     }
   };
+
+  const handleLockCapsule = () => {
+    const canvasImage = captureCanvasImage();
+    if (canvasImage) {
+      navigate('/lock-capsule', { state: { image: canvasImage } }); // Pass the image as state to the route
+    } else {
+      alert('No canvas image to lock.');
+    }
+  };  
 
   useEffect(() => {
     renderCanvas();
@@ -284,7 +301,7 @@ const App: React.FC = () => {
 
       {/* Lock Capsule Button */}
       <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-        <button onClick={() => navigate('/lock-capsule')} style={{ padding: '10px 20px', backgroundColor: 'lightblue', border: 'none' }}>
+        <button onClick={handleLockCapsule} style={{ padding: '10px 20px', backgroundColor: 'lightblue', border: 'none' }}>
           Lock Capsule
         </button>
       </div>
