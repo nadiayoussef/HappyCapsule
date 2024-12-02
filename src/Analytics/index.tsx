@@ -19,8 +19,8 @@ const data: ChartData[] = [
 ];
 
   return (
-    <ResponsiveContainer width="100%" height={400}>
-      <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+    <ResponsiveContainer width={1000} height={600} >
+      <BarChart data={data} margin={{ top: 50, right: 30, left: 20, bottom: 5 }}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" />
         <YAxis />
