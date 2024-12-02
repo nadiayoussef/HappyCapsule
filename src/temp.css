@@ -1,0 +1,311 @@
+:root {
+    --default-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      Ubuntu, "Helvetica Neue", Helvetica, Arial, "PingFang SC",
+      "Hiragino Sans GB", "Microsoft Yahei UI", "Microsoft Yahei",
+      "Source Han Sans CN", sans-serif;
+  }
+  
+  .main-container {
+    overflow: hidden;
+  }
+  
+  .main-container,
+  .main-container * {
+    box-sizing: border-box;
+  }
+  
+  input,
+  select,
+  textarea,
+  button {
+    outline: 0;
+  }
+  
+  .main-container {
+    position: relative;
+    width: 1440px;
+    height: 1024px;
+    margin: 0 auto;
+    background: #ffffff;
+    overflow: hidden;
+  }
+  .tabs-line {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    position: absolute;
+    width: 314.006px;
+    height: 1024px;
+    top: 0;
+    left: -1px;
+    padding: 0 0 32px 32px;
+  }
+  .tabs {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    flex-shrink: 0;
+    gap: 24px;
+    position: relative;
+    width: 280px;
+    min-width: 200px;
+    padding: 32px 0 0 0;
+    z-index: 1;
+  }
+  .frame {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    flex-shrink: 0;
+    gap: 10px;
+    position: relative;
+    width: 248px;
+    z-index: 2;
+  }
+  .rectangle {
+    flex-shrink: 0;
+    position: relative;
+    width: 248px;
+    height: 273px;
+    background: url(../assets/images/profile.png)
+      no-repeat center;
+    background-size: cover;
+    z-index: 3;
+    border-radius: 20px;
+  }
+  .nav-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    flex-shrink: 0;
+    gap: 10px;
+    position: relative;
+    width: 280px;
+    padding: 16px 16px 16px 16px;
+    z-index: 4;
+  }
+  .line {
+    flex-shrink: 0;
+    position: relative;
+    width: 2.006px;
+    height: 1064px;
+    z-index: 16;
+  }
+  
+  .banner-promotion {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 32px;
+    position: absolute;
+    width: 1127px;
+    min-width: 300px;
+    height: 123px;
+    top: 0;
+    left: 313px;
+    padding: 32px 96px 32px 96px;
+    background: #ffffff;
+    border-top: 1px solid #eaeaea;
+    z-index: 18;
+  }
+  .frame-1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    gap: 24px;
+    position: relative;
+    width: 309px;
+    z-index: 19;
+  }
+
+  .date-text {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    flex-basis: auto;
+    position: relative;
+    width: 249px;
+    height: 16px;
+    color: #1a1a1a;
+    font-family: Poppins, var(--default-font-family);
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 16px;
+    text-align: left;
+    white-space: nowrap;
+    letter-spacing: 0.3px;
+    z-index: 21;
+  }
+  .frame-2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    gap: 24px;
+    position: relative;
+    width: 221px;
+    z-index: 22;
+  }
+  .frame-3 {
+    flex-shrink: 0;
+    position: relative;
+    width: 38px;
+    height: 38px;
+    z-index: 23;
+  }
+
+  .time-text {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    flex-basis: auto;
+    position: relative;
+    width: 159px;
+    height: 16px;
+    color: #1a1a1a;
+    font-family: Poppins, var(--default-font-family);
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 16px;
+    text-align: left;
+    white-space: nowrap;
+    letter-spacing: 0.3px;
+    z-index: 25;
+  }
+  
+  .frame-5 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    flex-wrap: nowrap;
+    gap: 50px;
+    position: relative;
+    width: 90px;
+    margin: 65px 0 0 973px;
+    z-index: 32;
+  }
+  .group {
+    flex-shrink: 0;
+    position: relative;
+    width: 90px;
+    height: 90px;
+    z-index: 33;
+    border-radius: 10px;
+  }
+  .frame-6 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    gap: 10px;
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    top: 0;
+    left: 0;
+    padding: 24px 21px 24px 21px;
+    background: #f2f2f2;
+    z-index: 34;
+    border-radius: 10px;
+  }
+  
+  .group-8 {
+    flex-shrink: 0;
+    position: relative;
+    width: 90px;
+    height: 90px;
+    z-index: 36;
+    border-radius: 10px;
+  }
+  .frame-9 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    gap: 10px;
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    top: 0;
+    left: 0;
+    padding: 24px 21px 24px 21px;
+    background: #f2f2f2;
+    z-index: 37;
+    border-radius: 10px;
+  }
+
+  .group-b {
+    flex-shrink: 0;
+    position: relative;
+    width: 90px;
+    height: 90px;
+    z-index: 39;
+    border-radius: 10px;
+  }
+  .frame-c {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    gap: 10px;
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    top: 0;
+    left: 0;
+    padding: 18px 21px 18px 21px;
+    background: #f2f2f2;
+    z-index: 40;
+    border-radius: 10px;
+  }
+  .group-e {
+    flex-shrink: 0;
+    position: relative;
+    width: 90px;
+    height: 90px;
+    z-index: 42;
+    border-radius: 10px;
+  }
+  .frame-f {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    gap: 10px;
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    top: 0;
+    left: 0;
+    padding: 23px 21px 23px 21px;
+    background: #f2f2f2;
+    z-index: 43;
+    border-radius: 10px;
+  }
+
+  .container {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    flex-wrap: nowrap;
+    gap: 110px;
+    position: relative;
+    width: 946.5px;
+    height: 123.75px;
+    margin: 126px 0 0 117px;
+    z-index: 27;
+  }
+ 
+  
+  
