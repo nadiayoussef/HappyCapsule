@@ -4,6 +4,7 @@ import { CgProfile } from "react-icons/cg";
 import '../index.css'
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import LockCapsule from './LockCapsule';
+import { Y } from 'react-router/dist/production/fog-of-war-CbNQuoo8';
 
 export default function Canvas() {
     const navigate = useNavigate(); // Now works because we're in a Router context
@@ -159,6 +160,7 @@ export default function Canvas() {
       });
 
       if (clickedTextIndex !== -1) {
+        setText(canvasTextArray[clickedTextIndex].text);
         setDraggingTextIndex(clickedTextIndex);
         setOffset({ x: offsetX - canvasTextArray[clickedTextIndex].x, y: offsetY - canvasTextArray[clickedTextIndex].y });
       }
@@ -203,6 +205,37 @@ export default function Canvas() {
       setDraggingTextIndex(null); // Stop dragging
     }
   };
+
+  // Detect double-click for editing text
+  const handleDoubleClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    const { offsetX, offsetY } = e.nativeEvent;
+
+    if (mode === 'editing') {
+        const clickedTextIndex = canvasTextArray.findIndex((textObj) => {
+            const textWidth = canvasRef.current?.getContext('2d')?.measureText(textObj.text).width || 0;
+            const textHeight = 24;
+            return (
+                offsetX >= textObj.x &&
+                offsetX <= textObj.x + textWidth &&
+                offsetY >= textObj.y - textHeight &&
+                offsetY <= textObj.y
+            );
+        });
+
+        if (clickedTextIndex !== -1) {
+            // Prompt for editing the text
+            const newText = prompt('Edit text:', canvasTextArray[clickedTextIndex].text);
+            if (newText !== null && newText.trim() !== '') {
+                const updatedTextArray = [...canvasTextArray];
+                updatedTextArray[clickedTextIndex] = {
+                    ...updatedTextArray[clickedTextIndex],
+                    text: newText,
+                };
+                setCanvasTextArray(updatedTextArray);
+            }
+        }
+    }
+};
 
   const handleLockCapsule = () => {
     const canvasImage = captureCanvasImage();
@@ -298,10 +331,16 @@ export default function Canvas() {
   
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
-  
+
     const textWidth = ctx.measureText(text).width;
     const x = (canvas.width - textWidth) / 2; // Center the text horizontally
     const y = canvas.height / 2; // Center the text vertically
+
+    const newTextObject = {
+      text,
+      x: x,
+      y: y,
+    };
   
     ctx.font = '24px Arial'; // Set text font
     ctx.fillStyle = '#000'; // Set text color
@@ -378,6 +417,7 @@ export default function Canvas() {
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
+        onDoubleClick={handleDoubleClick}
         style={{ border: '1px solid black', display: 'block', margin: '20px auto' }}
       />
   
@@ -390,14 +430,15 @@ export default function Canvas() {
         </button>
       </div>
   
-      {/* Generate Prompt Button */}
-      <button
-        className="btn btn-success"
-        onClick={generatePrompt}
-        style={{ position: 'absolute', top: '10px', right: '10px' }}
-      >
+      <button className="btn btn-success" onClick={generatePrompt} style={{ position: 'absolute', top: '10px', right: '10px' }}>
         Generate Prompt
       </button>
+
+      {currentPrompt && (
+        <div style={{ position: 'absolute', top: '50px', right: '10px', background: '#f0f0f0', padding: '10px' }}>
+          {currentPrompt}
+        </div>
+      )}
     </div>
   );
   
