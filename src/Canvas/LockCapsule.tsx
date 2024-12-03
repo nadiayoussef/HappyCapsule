@@ -4,11 +4,12 @@ import { format } from 'date-fns';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import styles from './LockCapsule.module.css';
-import { FaLock, FaUnlock } from 'react-icons/fa'; // Import lock and unlock icons
+import { FaLock } from 'react-icons/fa'; // Import lock icon
 
 interface LockedEntry {
   image: string;
   lockedUntil: Date;
+  createdAt: Date; // Add createdAt to track the creation date
   isLocked: boolean;
 }
 
@@ -45,10 +46,11 @@ const LockCapsule: React.FC = () => {
       return;
     }
 
-    // Create a new locked entry
+    // Create a new locked entry with the current date as createdAt
     const newLockedEntry: LockedEntry = {
       image: canvasImage,
       lockedUntil: selectedDate,
+      createdAt: new Date(), // Set the creation date as the current date
       isLocked: true, // The entry starts as locked
     };
 

@@ -30,4 +30,5 @@ export default function App() {
       </div>
     </HashRouter>
   );
+  localStorage.clear();
 }
