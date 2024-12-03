@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { format } from 'date-fns';
 import { FaLock } from 'react-icons/fa'; // Import the padlock icon
-import { C } from 'react-router/dist/production/fog-of-war-CbNQuoo8';
 
 interface LockedEntry {
   image: string;
@@ -14,6 +13,8 @@ const JournalArchive: React.FC = () => {
   const [lockedEntries, setLockedEntries] = useState<LockedEntry[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string>('');
+  const [selectedEntry, setSelectedEntry] = useState<LockedEntry | null>(null); // State for modal
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // State for modal visibility
 
   useEffect(() => {
     const savedEntries = localStorage.getItem('lockedEntries');
@@ -41,33 +42,16 @@ const JournalArchive: React.FC = () => {
       : 'Invalid Date';
   };
 
-  // Function to clear locked entries from the backend and localStorage
-  const clearLockedEntries = async () => {
-    setLoading(true);
-    try {
-      // Call backend API to delete locked entries
-      const response = await fetch('http://localhost:5000/api/clear-locked-capsules', {
-        method: 'DELETE', // DELETE request to clear locked capsules
-      });
+  // Function to handle opening the modal with the selected entry
+  const handleCardClick = (entry: LockedEntry) => {
+    setSelectedEntry(entry);
+    setIsModalOpen(true);
+  };
 
-      const data = await response.json();
-
-      if (response.ok) {
-        // Clear localStorage after successful deletion
-        localStorage.removeItem('lockedEntries');
-        setLockedEntries([]); // Clear the state as well
-
-        // Show success message
-        setMessage('All locked capsules have been cleared successfully!');
-      } else {
-        setMessage(data.message || 'Failed to clear locked capsules.');
-      }
-    } catch (error) {
-      setMessage('Error clearing locked capsules.');
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
+  // Function to handle closing the modal
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+    setSelectedEntry(null);
   };
 
   const clearAll = () => {
@@ -78,19 +62,13 @@ const JournalArchive: React.FC = () => {
     <div className="JournalArchive">
       <h1>Journal Archive</h1>
 
-      {/* Clear Locked Entries Button */}
-      <button onClick={clearAll} disabled={loading}>
-        {loading ? 'Clearing...' : 'Clear Locked Entries'}
-      </button>
-      {message && <p>{message}</p>}
-
       {/* Display Locked Entries */}
       {locked.length > 0 && (
         <div className="lockedEntries">
           <h3>Locked Entries:</h3>
           <div className="row row-cols-1 row-cols-md-5 g-4">
             {locked.map((entry, index) => (
-              <div key={index} className="card p-3 b-3 m-3" style={{ width: '250px' }}>
+              <div key={index} className="card p-3 b-3 m-3" style={{ width: '250px' }} onClick={() => handleCardClick(entry)}>
                 <div className="entryItem list-group">
                   <p className="card-title">Locked until: {safeFormatDate(entry.lockedUntil)}</p>
                   {/* Show padlock icon for locked entries */}
@@ -110,7 +88,7 @@ const JournalArchive: React.FC = () => {
           <h3>Unlocked Entries:</h3>
           <div className="row row-cols-1 row-cols-md-5 g-4">
             {unlocked.map((entry, index) => (
-              <div key={index} className="card p-3 b-3 m-3" style={{ width: '250px' }}>
+              <div key={index} className="card p-3 b-3 m-3" style={{ width: '250px' }} onClick={() => handleCardClick(entry)}>
                 <div className="entryItem list-group">
                   <div className="card-body">
                     <img src={entry.image} alt={`Unlocked Entry ${index}`} style={{ width: '100px' }} />
@@ -126,6 +104,25 @@ const JournalArchive: React.FC = () => {
 
       {/* Message when there are no entries */}
       {locked.length === 0 && unlocked.length === 0 && <p>No entries available</p>}
+
+      {/* Clear Locked Entries Button at the bottom */}
+      <div className="clearButtonContainer">
+        <button onClick={clearAll} disabled={loading}>
+          {loading ? 'Clearing...' : 'Clear Locked Entries'}
+        </button>
+        {message && <p>{message}</p>}
+      </div>
+
+      {/* Modal for showing the maximized image */}
+      {isModalOpen && selectedEntry && (
+        <div className="modalOverlay" onClick={handleModalClose}>
+          <div className="modalContent" onClick={(e) => e.stopPropagation()}>
+            <img src={selectedEntry.image} alt="Maximized Journal Entry" className="modalImage" />
+            <p className="modalDate">Created on: {safeFormatDate(selectedEntry.createdAt)}</p>
+            <button onClick={handleModalClose} className="closeButton">Close</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
