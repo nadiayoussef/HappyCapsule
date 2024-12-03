@@ -3,10 +3,13 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+import styles from './LockCapsule.module.css';
+import { FaLock, FaUnlock } from 'react-icons/fa'; // Import lock and unlock icons
 
 interface LockedEntry {
   image: string;
   lockedUntil: Date;
+  isLocked: boolean;
 }
 
 const LockCapsule: React.FC = () => {
@@ -14,17 +17,20 @@ const LockCapsule: React.FC = () => {
   const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [canvasImage, setCanvasImage] = useState<string | null>(null);
+  const [isImageLocked, setIsImageLocked] = useState<boolean>(false);
   const [lockedEntries, setLockedEntries] = useState<LockedEntry[]>([]);
 
   useEffect(() => {
-    const savedEntries = localStorage.getItem('lockedEntries');
-    if (savedEntries) {
-      setLockedEntries(JSON.parse(savedEntries));
-    }
-
     // If the image was passed from the previous page, set it here
     if (location.state?.image) {
       setCanvasImage(location.state.image);
+      setIsImageLocked(false); // The main image is initially unlocked
+    }
+
+    // Retrieve existing entries from localStorage
+    const savedEntries = localStorage.getItem('lockedEntries');
+    if (savedEntries) {
+      setLockedEntries(JSON.parse(savedEntries));
     }
   }, [location.state]);
 
@@ -39,36 +45,64 @@ const LockCapsule: React.FC = () => {
       return;
     }
 
+    // Create a new locked entry
     const newLockedEntry: LockedEntry = {
       image: canvasImage,
       lockedUntil: selectedDate,
+      isLocked: true, // The entry starts as locked
     };
 
+    // Update the locked entries array
     const updatedLockedEntries = [...lockedEntries, newLockedEntry];
     setLockedEntries(updatedLockedEntries);
+
+    // Store the updated entries in localStorage
     localStorage.setItem('lockedEntries', JSON.stringify(updatedLockedEntries));
 
+    // Set the image as locked
+    setIsImageLocked(true);
+
+    // Show a confirmation alert
     alert('Capsule locked until: ' + format(selectedDate, 'MMMM dd, yyyy'));
+
+    // Navigate to the Journal Archive page
+    navigate('/journal-archive');
   };
 
-  const navigateToMain = () => {
-    navigate('/');
+  const navigateToCanvas = () => {
+    if (canvasImage) {
+      localStorage.setItem('canvasImage', canvasImage);
+    }
+    navigate('/Canvas');
   };
 
   return (
-    <div className="LockCapsule">
+    <div className={styles.LockCapsule}>
       <h1>Lock Capsule</h1>
 
-      {/* Preview captured canvas image */}
+      {/* Back to Editing Journal Button */}
+      <button className="backButton" onClick={navigateToCanvas}>
+        Back to Editing Journal
+      </button>
+
+      {/* Display captured image or padlock icon */}
       {canvasImage && (
-        <div>
-          <h3>Preview of your captured image</h3>
-          <img src={canvasImage} alt="Captured Canvas" style={{ width: '300px' }} />
+        <div className={styles.imagePreview}>
+          {isImageLocked ? (
+            // If the image is locked, show the padlock icon
+            <div className={styles.padlockIcon}>
+              <FaLock size={80} color="gray" />
+              <p>This capsule is locked.</p>
+            </div>
+          ) : (
+            // If the image is not locked, show the captured image
+            <img src={canvasImage} alt="Captured Canvas" className={styles.image} />
+          )}
         </div>
       )}
 
       {/* Date Picker */}
-      <div>
+      <div className={styles.calendarContainer}>
         <h3>Select a date to lock the capsule</h3>
         <Calendar
           onClickDay={handleDateClick}
@@ -77,30 +111,8 @@ const LockCapsule: React.FC = () => {
       </div>
 
       {/* Lock Capsule Button */}
-      <div>
+      <div className={styles.lockButtonContainer}>
         <button onClick={handleLock}>Lock Capsule</button>
-      </div>
-
-      {/* Navigate Back to Main Page */}
-      <div>
-        <button onClick={navigateToMain}>Back to Main Page</button>
-      </div>
-
-      {/* Display Locked Entries */}
-      <div>
-        <h3>Locked Entries:</h3>
-        {lockedEntries.length > 0 ? (
-          <ul>
-            {lockedEntries.map((entry, index) => (
-              <li key={index}>
-                <p>Locked until: {format(entry.lockedUntil, 'MMMM dd, yyyy')}</p>
-                <img src={entry.image} alt={`Locked Entry ${index}`} style={{ width: '100px' }} />
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>No locked entries</p>
-        )}
       </div>
     </div>
   );

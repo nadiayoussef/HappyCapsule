@@ -122,6 +122,15 @@ export default function Canvas() {
     setMediaFiles((prevFiles) => [...prevFiles, ...newMedia]);
   };
 
+  const saveCanvasState = () => {
+    const canvasState = {
+      drawnPaths,
+      mediaFiles,
+      canvasTextArray,
+      text,  // You might want to also store the current text input
+    };
+    localStorage.setItem('canvasState', JSON.stringify(canvasState));
+  };
   
 
   // Handle mouse down event to start dragging media (images or text)

@@ -1,0 +1,62 @@
+/* JournalArchive.module.css */
+
+.JournalArchive {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .JournalArchive h1 {
+    margin-bottom: 20px;
+  }
+  
+  /* Styling for the locked entries */
+  .lockedEntries {
+    margin-top: 40px;
+  }
+  
+  .lockedEntries ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .lockedEntries li {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .entryItem {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    width: 80%;
+    margin: 10px 0;
+  }
+  
+  .padlockIcon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  
+  .padlockIcon p {
+    font-size: 18px;
+    margin-top: 10px;
+    color: gray;
+  }
+  
+  .lockedEntries img {
+    width: 100px;
+    max-height: 100px;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+  

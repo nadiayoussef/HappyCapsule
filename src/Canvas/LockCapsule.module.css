@@ -1,0 +1,89 @@
+/* LockCapsule.module.css */
+
+.LockCapsule {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  h1 {
+    margin-bottom: 20px;
+  }
+  
+  .backButton {
+    position: relative;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  
+  .backButton:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Styles for image preview */
+  .imagePreview {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .imagePreview img {
+    width: 300px;
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+  
+  /* Styling for padlock icon */
+  .padlockIcon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+  }
+  
+  .padlockIcon p {
+    font-size: 18px;
+    margin-top: 10px;
+    color: gray;
+  }
+  
+  /* Lock button container */
+  .lockButtonContainer {
+    margin-top: 20px;
+  }
+  
+  .lockButtonContainer button {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .lockButtonContainer button:hover {
+    background-color: #218838;
+  }
+  
+  /* Calendar container */
+  .calendarContainer {
+    margin-top: 30px;
+  }
+  
+  /* Additional styles for the page */
+  .imagePreview img {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+  }
+  
