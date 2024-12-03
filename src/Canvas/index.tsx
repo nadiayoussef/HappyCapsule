@@ -20,6 +20,9 @@ export default function Canvas() {
   const [offset, setOffset] = useState<{ x: number, y: number }>({ x: 0, y: 0 });
   const [prompts, setPrompts] = useState<string[]>([]); // Store prompts from CSV
   const [currentPrompt, setCurrentPrompt] = useState<string>(''); // Store current prompt
+  const [text, setText] = useState<string>(''); // To store the input text
+  // const [isTextAdded, setIsTextAdded] = useState<boolean>(false); // To track if the text is already added
+  const [canvasText, setCanvasText] = useState<{ text: string; x: number; y: number } | null>(null);
 
   const currentDate: Date = new Date();
   const formattedDate: string = format(currentDate, 'MMMMMMMM dd, yyyy');
@@ -182,7 +185,8 @@ export default function Canvas() {
 
   useEffect(() => {
     renderCanvas();
-  }, [mediaFiles, drawnPaths, mode, currentPath]);
+  }, [mediaFiles, drawnPaths, mode, currentPath, canvasText]); // Ensure text state is included in the rendering cycle
+
 
   const renderCanvas = () => {
     const canvas = canvasRef.current;
@@ -217,6 +221,13 @@ export default function Canvas() {
       ctx.stroke();
     });
 
+     // Render text if it exists
+    if (canvasText) {
+      ctx.font = '24px Arial';
+      ctx.fillStyle = '#000';
+      ctx.fillText(canvasText.text, canvasText.x, canvasText.y);
+    }
+
     if (currentPath.length > 0) {
       ctx.beginPath();
       ctx.moveTo(currentPath[0].x, currentPath[0].y);
@@ -244,6 +255,34 @@ export default function Canvas() {
 
     ctx.drawImage(mediaElement, x, y, newWidth, newHeight);
   };
+
+  const addTextToCanvas = () => {
+    if (!text.trim()) {
+      alert('Please enter some text');
+      return;
+    }
+  
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+  
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+  
+    const textWidth = ctx.measureText(text).width;
+    const x = (canvas.width - textWidth) / 2; // Center the text horizontally
+    const y = canvas.height / 2; // Center the text vertically
+  
+    ctx.font = '24px Arial'; // Set text font
+    ctx.fillStyle = '#000'; // Set text color
+    ctx.fillText(text, x, y); // Draw the text on the canvas
+  
+    // setIsTextAdded(true); // Mark the text as added
+
+     // Store text position and content
+     setCanvasText({ text, x, y });
+    
+  };
+  
 
   return (
     <div>
@@ -280,6 +319,23 @@ export default function Canvas() {
           {currentPrompt}
         </div>
       )}
+
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '10px' }}>
+        <input
+          type="text"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          placeholder="Type text to add"
+          style={{ padding: '5px' }}
+        />
+        <button
+          className="btn btn-info"
+          onClick={addTextToCanvas}
+          style={{ padding: '5px 10px' }}
+        >
+          Add Text
+        </button>
+      </div>
 
       <canvas
         ref={canvasRef}
