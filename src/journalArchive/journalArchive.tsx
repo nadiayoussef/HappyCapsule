@@ -31,28 +31,35 @@ const JournalArchive: React.FC = () => {
       {/* Display Locked Entries */}
       <div className="lockedEntries">
         <h3>Locked Entries:</h3>
+        
         {lockedEntries.length > 0 ? (
-          <ul>
+          <div className='row row-cols1 row-cols-md-5 g-4'>
             {lockedEntries.map((entry, index) => (
-              <li key={index} className="entryItem">
-                <p>Locked until: {format(entry.lockedUntil, 'MMMM dd, yyyy')}</p>
+
+                <div className='card p-3 b-3 m-3' style={{width: "250px"}}>
+              <div key={index} className="entryItem list-group">
+                <p className='card-title'>Locked until: {format(entry.lockedUntil, 'MMMM dd, yyyy')}</p>
 
                 {/* Show padlock icon for locked entries */}
                 {entry.isLocked ? (
-                  <div className="padlockIcon">
+                  <div className="padlockIcon text-center">
                     <FaLock size={40} color="gray" />
                   </div>
                 ) : (
+                    <div className='card-body'>
                   <img src={entry.image} alt={`Locked Entry ${index}`} style={{ width: '100px' }} />
+                  </div>
                 )}
-              </li>
+              </div>
+              </div>
             ))}
-          </ul>
+          </div>
         ) : (
           <p>No locked entries</p>
         )}
+        </div>
       </div>
-    </div>
+    
   );
 };
 
