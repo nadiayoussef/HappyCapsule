@@ -114,4 +114,22 @@
     padding: 20px;
     text-align: center;
   }
+
+/* Tags Section in Modal */
+.tagsSection {
+  margin-top: 20px;
+  font-size: 16px;
+  color: #333;
+}
+
+.tagsSection h4 {
+  font-size: 18px;
+  color: #007bff;
+}
+
+.tagsSection p {
+  font-size: 14px;
+  color: #555;
+}
+
   
