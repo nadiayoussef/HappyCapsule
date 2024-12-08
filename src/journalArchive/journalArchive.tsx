@@ -56,7 +56,7 @@ const JournalArchive: React.FC = () => {
 
   const clearAll = () => {
     localStorage.clear();
-  }
+  };
 
   return (
     <div className="JournalArchive">
@@ -117,8 +117,18 @@ const JournalArchive: React.FC = () => {
       {isModalOpen && selectedEntry && (
         <div className="modalOverlay" onClick={handleModalClose}>
           <div className="modalContent" onClick={(e) => e.stopPropagation()}>
-            <img src={selectedEntry.image} alt="Maximized Journal Entry" className="modalImage" />
-            <p className="modalDate">Created on: {safeFormatDate(selectedEntry.createdAt)}</p>
+            {/* Check if the entry is locked */}
+            {selectedEntry.isLocked ? (
+              <div className="padlockIcon text-center">
+                <FaLock size={80} color="gray" />
+                <p>This capsule is locked.</p>
+              </div>
+            ) : (
+              <div>
+                <img src={selectedEntry.image} alt="Maximized Journal Entry" className="modalImage" />
+                <p className="modalDate">Created on: {safeFormatDate(selectedEntry.createdAt)}</p>
+              </div>
+            )}
             <button onClick={handleModalClose} className="closeButton">Close</button>
           </div>
         </div>
