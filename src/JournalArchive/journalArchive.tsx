@@ -7,6 +7,7 @@ interface LockedEntry {
   lockedUntil: Date;
   createdAt: Date; // Add createdAt to track the creation date
   isLocked: boolean; // Add an isLocked property to track lock status
+  tags: string[]; // Add tags to the LockedEntry interface
 }
 
 const JournalArchive: React.FC = () => {
@@ -129,6 +130,11 @@ const JournalArchive: React.FC = () => {
                 <p className="modalDate">Created on: {safeFormatDate(selectedEntry.createdAt)}</p>
               </div>
             )}
+            {/* Display Tags */}
+            <div className="tagsSection">
+              <h4>Tags:</h4>
+              <p>{selectedEntry.tags.join(', ')}</p> {/* Join tags with commas */}
+            </div>
             <button onClick={handleModalClose} className="closeButton">Close</button>
           </div>
         </div>
