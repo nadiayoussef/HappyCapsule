@@ -11,7 +11,7 @@ export default function Home() {
                     HappyCap is a multimedia journaling platform where you can capture your moments with images, videos, etc, then lock them for future rediscovery.
                 </h5>
                 {/* Use Link to navigate to the Canvas page (New Entry page) */}
-                <Link to="/canvas" className="btn btn-dark rounded-pill float-end">Get Started</Link>
+                <Link to="/Journal" className="btn btn-dark rounded-pill float-end">Get Started</Link>
             </div>
         </div>
     );

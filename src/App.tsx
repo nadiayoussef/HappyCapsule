@@ -11,7 +11,7 @@ import Home from './Navigation/home';
 
 export default function App() {
   return (
-    <HashRouter>
+
       <div className="main">
         {/* Sidebar */}
         <Main />
@@ -21,14 +21,13 @@ export default function App() {
           <Routes>
             {/* Define routes */}
             
-            <Route path="/Canvas" element={<Canvas />} />  {/* New Entry page */}
+            <Route path="/" element={<Canvas />} />  {/* New Entry page */}
             <Route path="/Analytics" element={<Analytics />} />  {/* Analytics page */}
             <Route path="/LockCapsule" element={<LockCapsule />} />  {/* LockCapsule page */}
-            <Route path="/journal-archive" element={<JournalArchive />} />  {/* Journal Archive */}
+            <Route path="/Journal-Archive" element={<JournalArchive />} />  {/* Journal Archive */}
             <Route path="/FAQ" element={<Analytics />} />  {/* FAQ page */}
           </Routes>
         </div>
       </div>
-    </HashRouter>
   );
 }

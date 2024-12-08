@@ -5,10 +5,10 @@ import '../temp.css';  // Importing styles
 export default function Main() {
   // Define the links for navigation
   const links = [
-    { label: "Journal", path: "/journal-archive", className: "test" },
-    { label: "New Entry", path: "/Canvas", className: "test" },
-    { label: "Analytics", path: "/Analytics", className: "test" },
-    { label: "FAQ's", path: "/FAQ", className: "test" },
+    { label: "Journal", path: "/Journal/Journal-Archive", className: "test" },
+    { label: "New Entry", path: "/Journal", className: "test" },
+    { label: "Analytics", path: "/Journal/Analytics", className: "test" },
+    { label: "FAQ's", path: "/Journal/FAQ", className: "test" },
   ];
 
   return (

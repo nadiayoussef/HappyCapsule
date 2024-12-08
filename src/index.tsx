@@ -5,13 +5,21 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import Home from './Navigation/home';
+import { HashRouter, Route, Routes } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <HashRouter>
+          <Routes>
+          <Route path="/" element={<Home />} />  
+          <Route path="/Journal/*" element={<App />} /> 
+          </Routes>
+          </HashRouter>
+    
   </React.StrictMode>
 );
 
