@@ -249,7 +249,7 @@ export default function Canvas() {
   const handleLockCapsule = () => {
     const canvasImage = captureCanvasImage();
     if (canvasImage) {
-      navigate('/LockCapsule', { state: { image: canvasImage } }); // Pass the image as state to the route
+      navigate('/Journal/LockCapsule', { state: { image: canvasImage } }); // Pass the image as state to the route
     } else {
       alert('No canvas image to lock.');
     }

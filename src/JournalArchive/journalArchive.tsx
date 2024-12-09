@@ -109,7 +109,7 @@ const JournalArchive: React.FC = () => {
       {/* Clear Locked Entries Button at the bottom */}
       <div className="clearButtonContainer">
         <button onClick={clearAll} disabled={loading}>
-          {loading ? 'Clearing...' : 'Clear Locked Entries'}
+          {loading ? 'Clearing...' : 'Clear All Entries'}
         </button>
         {message && <p>{message}</p>}
       </div>

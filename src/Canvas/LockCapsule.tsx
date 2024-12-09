@@ -80,14 +80,14 @@ const LockCapsule: React.FC = () => {
     alert('Capsule locked until: ' + format(selectedDate, 'MMMM dd, yyyy'));
 
     // Navigate to the Journal Archive page
-    navigate('/journal-archive');
+    navigate('/Journal/Journal-Archive');
   };
 
   const navigateToCanvas = () => {
     if (canvasImage) {
       localStorage.setItem('canvasImage', canvasImage);
     }
-    navigate('/Canvas');
+    navigate('/Journal');
   };
 
   return (

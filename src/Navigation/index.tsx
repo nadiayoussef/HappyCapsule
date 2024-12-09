@@ -8,7 +8,7 @@ export default function Main() {
     { label: "Journal", path: "/Journal/Journal-Archive", className: "test" },
     { label: "New Entry", path: "/Journal", className: "test" },
     { label: "Analytics", path: "/Journal/Analytics", className: "test" },
-    { label: "FAQ's", path: "/Journal/FAQ", className: "test" },
+    { label: "FAQs", path: "/Journal/FAQ", className: "faq-page" },
   ];
 
   return (
