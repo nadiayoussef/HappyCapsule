@@ -6,16 +6,16 @@ export default function Analytics() {
 // Define the type for our data
 type ChartData = {
   name: string;
-  value: number;
+  Frequency: number;
 };
 
 // Sample data for the chart
 const data: ChartData[] = [
-  { name: 'Page A', value: 400 },
-  { name: 'Page B', value: 300 },
-  { name: 'Page C', value: 200 },
-  { name: 'Page D', value: 278 },
-  { name: 'Page E', value: 189 },
+  { name: 'January', Frequency: 20 },
+  { name: 'February', Frequency: 27 },
+  { name: 'March', Frequency: 17 },
+  { name: 'April', Frequency: 24 },
+  { name: 'May', Frequency: 30 },
 ];
 
   return (
@@ -26,7 +26,7 @@ const data: ChartData[] = [
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey="value" fill="#8884d8" />
+        <Bar dataKey="Frequency" fill="#8884d8" />
       </BarChart>
     </ResponsiveContainer>
   );
