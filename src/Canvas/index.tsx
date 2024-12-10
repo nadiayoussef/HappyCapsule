@@ -70,19 +70,47 @@ export default function Canvas() {
         }
         return null;
     };
+    
 
-    const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
-        if (mode !== 'drawing') return;
-        const { offsetX, offsetY } = e.nativeEvent;
-        setIsDrawing(true);
-        setCurrentPath([{ x: offsetX, y: offsetY }]);
-    };
+   // Get the scaling factor between the canvas's rendered size (CSS size) and the internal canvas size (drawing size)
+const getCanvasScaleFactor = (canvas: HTMLCanvasElement): number => {
+  const style = getComputedStyle(canvas);
+  const widthScale = canvas.width / parseFloat(style.width);
+  const heightScale = canvas.height / parseFloat(style.height);
+  return Math.min(widthScale, heightScale);  // Assuming uniform scaling
+};
 
-    const draw = (e: React.MouseEvent<HTMLCanvasElement>) => {
-        if (!isDrawing || mode !== 'drawing') return;
-        const { offsetX, offsetY } = e.nativeEvent;
-        setCurrentPath((prevPath) => [...prevPath, { x: offsetX, y: offsetY }]);
-    };
+// Calculate the mouse position relative to the canvas with respect to the scale factor
+const getCanvasOffset = (canvas: HTMLCanvasElement, e: React.MouseEvent<HTMLCanvasElement>): { x: number, y: number } => {
+  const rect = canvas.getBoundingClientRect();
+  const scaleFactor = getCanvasScaleFactor(canvas);
+  const offsetX = (e.clientX - rect.left) * scaleFactor;  // Correcting offsetX with scale factor
+  const offsetY = (e.clientY - rect.top) * scaleFactor;   // Correcting offsetY with scale factor
+  return { x: offsetX, y: offsetY };
+};
+
+const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
+  if (mode !== 'drawing') return;
+
+  const canvas = canvasRef.current;
+  if (!canvas) return;
+
+  const { x, y } = getCanvasOffset(canvas, e);
+  setIsDrawing(true);
+  setCurrentPath([{ x, y }]);
+};
+
+const draw = (e: React.MouseEvent<HTMLCanvasElement>) => {
+  if (!isDrawing || mode !== 'drawing') return;
+
+  const canvas = canvasRef.current;
+  if (!canvas) return;
+
+  const { x, y } = getCanvasOffset(canvas, e);
+  setCurrentPath((prevPath) => [...prevPath, { x, y }]);
+};
+
+  
 
     const endDrawing = () => {
         if (currentPath.length > 0) {
