@@ -1,138 +1,145 @@
 /* JournalArchive.module.css */
 
 .JournalArchive {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 20px;
-  }
-  
-  .JournalArchive h1 {
-    margin-bottom: 20px;
-  }
-  
-  /* Styling for the locked entries */
-  .lockedEntries {
-    margin-top: 40px;
-  }
-  
-  .lockedEntries ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .lockedEntries li {
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-  
-  .entryItem {
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-    width: 80%;
-    margin: 10px 0;
-  }
-  
-  .padlockIcon {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-top: 10px;
-  }
-  
-  .padlockIcon p {
-    font-size: 18px;
-    margin-top: 10px;
-    color: gray;
-  }
-  
-  .lockedEntries img {
-    width: 100px;
-    max-height: 100px;
-    object-fit: cover;
-    border-radius: 5px;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  /* Add this to hide content when modal is open */
+  visibility: visible; /* Default */
+}
 
-  /* Modal Overlay */
+.JournalArchive.hidden {
+  visibility: hidden; /* Hide content when modal is open */
+}
+
+.JournalArchive h1 {
+  margin-bottom: 20px;
+}
+
+/* Styling for the locked entries */
+.lockedEntries {
+  margin-top: 40px;
+}
+
+.lockedEntries ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.lockedEntries li {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.entryItem {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  width: 80%;
+  margin: 10px 0;
+}
+
+.padlockIcon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.padlockIcon p {
+  font-size: 18px;
+  margin-top: 10px;
+  color: gray;
+}
+
+.lockedEntries img {
+  width: 100px;
+  max-height: 100px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+/* Modal Overlay */
 .modalOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.7); /* Dark background */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000; /* Ensure it's on top */
-  }
-  
-  /* Modal Content */
-  .modalContent {
-    background: white;
-    padding: 20px;
-    max-width: 90%;
-    max-height: 80%;
-    overflow: auto;
-    text-align: center;
-    position: relative;
-    border-radius: 8px;
-  }
-  
-  .modalImage {
-    width: 100%;
-    height: auto;
-  }
-  
-  .modalDate {
-    margin-top: 10px;
-    font-size: 16px;
-    color: #555;
-  }
-  
-  /* Wrapper to align buttons and add space */
-  .buttonContainer {
-    display: flex;
-    justify-content: center;
-    gap: 15px;  /* Add space between buttons */
-    margin-top: 20px;  /* Add space above buttons */
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7); /* Dark background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensure it's on top */
+}
 
-  /* Styling for the buttons */
-  .closeButton, .saveButton {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border: none;
-    border-radius: 5px;
-  }
+/* Modal Content */
+.modalContent {
+  background: white;
+  padding: 20px;
+  max-width: 90%;
+  max-height: 80%;
+  overflow: auto;
+  text-align: center;
+  position: relative;
+  border-radius: 8px;
+}
 
-  .closeButton {
-    background-color: #f44336; /* Red background for Close button */
-    color: white;
-  }
+.modalImage {
+  width: 100%;
+  height: auto;
+}
 
-  .saveButton {
-    background-color: #4caf50; /* Green background for Save button */
-    color: white;
-  }
+.modalDate {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #555;
+}
 
-  .buttonContainer button {
-    margin: 0 5px;
-  }
+/* Wrapper to align buttons and add space */
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  gap: 15px;  /* Add space between buttons */
+  margin-top: 20px;  /* Add space above buttons */
+}
 
-  .clearButtonContainer {
-    margin-top: auto; /* Push the button to the bottom */
-    padding: 20px;
-    text-align: center;
-  }
+.buttonContainer button {
+  margin: 0 5px;
+}
+
+/* Styling for the buttons */
+.closeButton, .saveButton {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+}
+
+.closeButton {
+  background-color: #f44336; /* Red background for Close button */
+  color: white;
+}
+
+.saveButton {
+  background-color: #4caf50; /* Green background for Save button */
+  color: white;
+}
+
+/* Clear Entries Button */
+.clearButtonContainer {
+  margin-top: auto; /* Push the button to the bottom */
+  padding: 20px;
+  text-align: center;
+}
 
 /* Tags Section in Modal */
 .tagsSection {
@@ -150,5 +157,3 @@
   font-size: 14px;
   color: #555;
 }
-
-  
