@@ -13,6 +13,7 @@
     "bootstrap": "^5.3.3",
     "date-and-time": "^3.6.0",
     "date-fns": "^4.1.0",
+    "file-saver": "^2.0.5",
     "perfect-freehand": "^1.2.2",
     "react": "^18.3.1",
     "react-calendar": "^5.1.0",
@@ -53,6 +54,7 @@
     ]
   },
   "devDependencies": {
+    "@types/file-saver": "^2.0.7",
     "@types/react-color": "^3.0.12"
   }
 }

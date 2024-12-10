@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { format } from 'date-fns';
 import { FaLock } from 'react-icons/fa'; // Import the padlock icon
+import { saveAs } from 'file-saver'; // Import file-saver for saving files
 
 interface LockedEntry {
   image: string;
@@ -55,6 +56,27 @@ const JournalArchive: React.FC = () => {
     setSelectedEntry(null);
   };
 
+  // Function to handle saving the image
+  const handleSaveImage = () => {
+    if (selectedEntry) {
+      const blob = dataURItoBlob(selectedEntry.image); // Convert data URL to Blob
+      saveAs(blob, 'journal-entry.png'); // This will trigger the browser's download prompt
+    }
+  };
+  
+
+  // Convert data URL to Blob
+  const dataURItoBlob = (dataURI: string) => {
+    const byteString = atob(dataURI.split(',')[1]);
+    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ua = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ua[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: mimeString });
+  };
+
   const clearAll = () => {
     const userConfirmed = window.confirm('Are you sure you want to clear all entries?  This cannot be undone.');
     if (userConfirmed) {
@@ -62,7 +84,6 @@ const JournalArchive: React.FC = () => {
       setLockedEntries([]);
     }
   };
-  
 
   return (
     <div className="JournalArchive">
@@ -97,7 +118,7 @@ const JournalArchive: React.FC = () => {
               <div key={index} className="card p-3 b-3 m-3" style={{ width: '250px' }} onClick={() => handleCardClick(entry)}>
                 <div className="entryItem list-group">
                   <div className="card-body">
-                    <img src={entry.image} alt={`Unlocked Entry ${index}`} style={{ width: '100px' }} />
+                  <img src={entry.image} alt={`Unlocked Entry ${index}`} style={{ width: '100px' }} />
                     {/* Display the creation date for unlocked entries */}
                     <p className="card-text">Created on: {safeFormatDate(entry.createdAt)}</p>
                   </div>
@@ -123,25 +144,32 @@ const JournalArchive: React.FC = () => {
       {isModalOpen && selectedEntry && (
         <div className="modalOverlay" onClick={handleModalClose}>
           <div className="modalContent" onClick={(e) => e.stopPropagation()}>
-            {/* Check if the entry is locked */}
-            {selectedEntry.isLocked ? (
-              <div className="padlockIcon text-center">
-                <FaLock size={80} color="gray" />
-                <p>This capsule is locked.</p>
-              </div>
-            ) : (
-              <div>
-                <img src={selectedEntry.image} alt="Maximized Journal Entry" className="modalImage" />
-                <p className="modalDate">Created on: {safeFormatDate(selectedEntry.createdAt)}</p>
-              </div>
-            )}
-            {/* Display Tags */}
-            <div className="tagsSection">
-              <h4>Tags:</h4>
-              <p>{selectedEntry.tags.join(', ')}</p> {/* Join tags with commas */}
-            </div>
-            <button onClick={handleModalClose} className="closeButton">Close</button>
+        {/* Check if the entry is locked */}
+        {selectedEntry.isLocked ? (
+          <div className="padlockIcon text-center">
+            <FaLock size={80} color="gray" />
+            <p>This capsule is locked.</p>
           </div>
+        ) : (
+          <div>
+            <img src={selectedEntry.image} alt="Maximized Journal Entry" className="modalImage" />
+            <p className="modalDate">Created on: {safeFormatDate(selectedEntry.createdAt)}</p>
+          </div>
+        )}
+
+        {/* Display Tags */}
+        <div className="tagsSection">
+          <h4>Tags:</h4>
+          <p>{selectedEntry.tags.join(', ')}</p> {/* Join tags with commas */}
+        </div>
+
+        {/* Wrapper for buttons */}
+        <div className="buttonContainer">
+          <button onClick={handleModalClose} className="closeButton">Close</button>
+          <button onClick={handleSaveImage} className="saveButton">Save</button>
+        </div>
+      </div>
+
         </div>
       )}
     </div>
