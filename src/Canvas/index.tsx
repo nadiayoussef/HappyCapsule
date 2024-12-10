@@ -4,10 +4,10 @@ import { CgProfile } from "react-icons/cg";
 import '../index.css';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import LockCapsule from './LockCapsule';
-import { SketchPicker } from 'react-color';  // Import SketchPicker from react-color
+import { SketchPicker } from 'react-color';
 
 export default function Canvas() {
-    const navigate = useNavigate(); // Now works because we're in a Router context
+    const navigate = useNavigate();
 
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const [isDrawing, setIsDrawing] = useState<boolean>(false);

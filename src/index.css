@@ -58,7 +58,7 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  background-color: #f0f0f0; /* Set your preferred background color */
+  background-color: #f0f0f0;
 }
 
 /* The main app container should take at least the full height of the page */
@@ -67,7 +67,7 @@ html, body {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  min-height: 100%; /* Ensures the App container takes full height */
+  min-height: 100%;
   overflow-y: auto; /* Allow scrolling */
 }
 
@@ -82,7 +82,7 @@ canvas {
 img, video {
   max-width: 100%;
   max-height: 400px;
-  object-fit: contain; /* Ensures the media scales well */
+  object-fit: contain;
 }
 
 /* Ensure the 'Clear Canvas' button and file input are spaced appropriately */
@@ -99,7 +99,7 @@ label {
 }
 
 input[type="file"] {
-  display: none; /* Hides the file input */
+  display: none;
 }
 
 #card{
@@ -109,4 +109,8 @@ input[type="file"] {
   border-radius: 5px;
   cursor: pointer;
   position: fixed;
+}
+
+.sketch-picker{
+  min-width: 300px;
 }
