@@ -115,15 +115,22 @@ const draw = (e: React.MouseEvent<HTMLCanvasElement>) => {
     };
 
     const clearCanvas = () => {
-        const canvas = canvasRef.current;
-        if (canvas) {
-            const ctx = canvas.getContext('2d');
-            ctx!.clearRect(0, 0, canvas.width, canvas.height);
-        }
-        setMediaFiles([]);
-        setDrawnPaths([]);
-        setCanvasTextArray([]);
-    };
+      // Show confirmation dialog
+      const confirmClear = window.confirm("Are you sure you want to clear the canvas? This cannot be undone.");
+      
+      // Only clear if the user confirms
+      if (confirmClear) {
+          const canvas = canvasRef.current;
+          if (canvas) {
+              const ctx = canvas.getContext('2d');
+              ctx!.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas content
+          }
+          setMediaFiles([]); // Clear any imported media
+          setDrawnPaths([]); // Clear drawn paths
+          setCanvasTextArray([]); // Clear text objects
+      }
+  };
+  
 
     const importMedia = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files;
