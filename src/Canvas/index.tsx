@@ -11,8 +11,9 @@ export default function Canvas() {
 
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const [isDrawing, setIsDrawing] = useState<boolean>(false);
-    const [drawnPaths, setDrawnPaths] = useState<{ x: number; y: number }[][]>([]);
-    const [currentPath, setCurrentPath] = useState<{ x: number; y: number }[]>([]);
+    const [drawColor, setDrawColor] = useState<string>('#000'); // State for drawing color
+    const [drawnPaths, setDrawnPaths] = useState<{ path: { x: number; y: number }[], color: string }[]>([]);
+    const [currentPath, setCurrentPath] = useState<{ path: { x: number; y: number }[], color: string }>({ path: [], color: drawColor });
     const [mediaFiles, setMediaFiles] = useState<
         { url: string; type: 'image'; element: HTMLImageElement, x: number, y: number, isDragging: boolean }[]
     >([]);
@@ -25,7 +26,6 @@ export default function Canvas() {
     const [text, setText] = useState<string>(''); // To store the input text
     const [canvasTextArray, setCanvasTextArray] = useState<{ text: string; x: number; y: number }[]>([]); // Array to store multiple text objects  
 
-    const [drawColor, setDrawColor] = useState<string>('#000'); // State for drawing color
     const currentDate: Date = new Date();
     const formattedDate: string = format(currentDate, 'MMMMMMMM dd, yyyy');
 
@@ -92,32 +92,26 @@ const getCanvasOffset = (canvas: HTMLCanvasElement, e: React.MouseEvent<HTMLCanv
 const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
   if (mode !== 'drawing') return;
 
-  const canvas = canvasRef.current;
-  if (!canvas) return;
-
-  const { x, y } = getCanvasOffset(canvas, e);
+  const { x, y } = getCanvasOffset(canvasRef.current!, e);
   setIsDrawing(true);
-  setCurrentPath([{ x, y }]);
+  setCurrentPath({ path: [{ x, y }], color: drawColor });
 };
 
 const draw = (e: React.MouseEvent<HTMLCanvasElement>) => {
   if (!isDrawing || mode !== 'drawing') return;
 
-  const canvas = canvasRef.current;
-  if (!canvas) return;
-
-  const { x, y } = getCanvasOffset(canvas, e);
-  setCurrentPath((prevPath) => [...prevPath, { x, y }]);
-};
-
-  
-
-    const endDrawing = () => {
-        if (currentPath.length > 0) {
-            setDrawnPaths((prevPaths) => [...prevPaths, currentPath]);
-        }
-        setIsDrawing(false);
-        setCurrentPath([]);
+  const { x, y } = getCanvasOffset(canvasRef.current!, e);
+  setCurrentPath((prevPath) => ({
+      path: [...prevPath.path, { x, y }],
+      color: prevPath.color,
+      }));
+    };
+  const endDrawing = () => {
+    if (currentPath.path.length > 0) {
+        setDrawnPaths((prevPaths) => [...prevPaths, currentPath]);
+    }
+      setIsDrawing(false);
+      setCurrentPath({ path: [], color: drawColor });
     };
 
     const clearCanvas = () => {
@@ -290,18 +284,19 @@ const draw = (e: React.MouseEvent<HTMLCanvasElement>) => {
             }
         });
 
-        drawnPaths.forEach((path) => {
-            ctx.beginPath();
-            ctx.moveTo(path[0].x, path[0].y);
-            path.forEach((point, index) => {
-                if (index > 0) {
-                    ctx.lineTo(point.x, point.y);
-                }
-            });
-            ctx.strokeStyle = drawColor; // Use the selected color for drawing
-            ctx.lineWidth = 2;
-            ctx.stroke();
-        });
+        drawnPaths.forEach((pathData) => {
+          const { path, color } = pathData;
+          ctx.beginPath();
+          ctx.moveTo(path[0].x, path[0].y);
+          path.forEach((point, index) => {
+              if (index > 0) {
+                  ctx.lineTo(point.x, point.y);
+              }
+          });
+          ctx.strokeStyle = color;
+          ctx.lineWidth = 2;
+          ctx.stroke();
+      });
 
         // Render all text objects
         canvasTextArray.forEach((textObj) => {
@@ -310,18 +305,18 @@ const draw = (e: React.MouseEvent<HTMLCanvasElement>) => {
             ctx.fillText(textObj.text, textObj.x, textObj.y);
         });
 
-        if (currentPath.length > 0) {
-            ctx.beginPath();
-            ctx.moveTo(currentPath[0].x, currentPath[0].y);
-            currentPath.forEach((point, index) => {
-                if (index > 0) {
-                    ctx.lineTo(point.x, point.y);
-                }
-            });
-            ctx.strokeStyle = drawColor; // Use the selected color for drawing
-            ctx.lineWidth = 2;
-            ctx.stroke();
-        }
+        if (currentPath.path.length > 0) {
+          ctx.beginPath();
+          ctx.moveTo(currentPath.path[0].x, currentPath.path[0].y);
+          currentPath.path.forEach((point, index) => {
+              if (index > 0) {
+                  ctx.lineTo(point.x, point.y);
+              }
+          });
+          ctx.strokeStyle = currentPath.color;
+          ctx.lineWidth = 2;
+          ctx.stroke();
+      }
     };
 
     const drawImageQuarter = (mediaElement: HTMLImageElement, x: number, y: number, ctx: CanvasRenderingContext2D) => {
