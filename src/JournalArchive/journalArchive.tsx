@@ -78,12 +78,14 @@ const JournalArchive: React.FC = () => {
   };
 
   const clearAll = () => {
-    const userConfirmed = window.confirm('Are you sure you want to clear all entries?  This cannot be undone.');
+    const userConfirmed = window.confirm('Are you sure you want to clear all entries? This cannot be undone.');
     if (userConfirmed) {
       localStorage.clear();
       setLockedEntries([]);
+      handleModalClose();
     }
   };
+  
 
   return (
     <div className="JournalArchive">
